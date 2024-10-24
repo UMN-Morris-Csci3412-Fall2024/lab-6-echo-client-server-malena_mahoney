@@ -9,8 +9,13 @@ public class EchoClient {
     public static final int portNumber = 6013;
 
     public static void main(String[] args) throws IOException {
-        // Determine the server address. Default to localhost if no arguments are provided.
-        String server = (args.length == 0) ? "127.0.0.1" : args[0];
+        String server;
+        // Use "127.0.0.1", i.e., localhost, if no server is specified.
+        if (args.length == 0) {
+            server = "127.0.0.1";
+        } else {
+            server = args[0];
+        }
 
         // Establish a connection to the server
         try (Socket socket = new Socket(server, portNumber)) {
@@ -26,10 +31,12 @@ public class EchoClient {
                 output.flush(); // Ensure the byte is sent immediately
             }
 
-            // Shutdown the output stream to signal the server that no more data will be sent
+            // Shutdown the output stream to signal the server that no more data will be
+            // sent
             socket.shutdownOutput();
 
-            // Read the echoed bytes from the server and print them to System.out (standard output)
+            // Read the echoed bytes from the server and print them to System.out (standard
+            // output)
             while ((byteRead = input.read()) != -1) {
                 System.out.write(byteRead); // Write the byte to standard output
             }
